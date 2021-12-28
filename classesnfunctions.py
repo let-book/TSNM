@@ -3,18 +3,7 @@ import time
 import random
 import os
 
-
-class Platform:
-    # класс объекта-платформы, при её отсутствии под живым объектом - он будет падать.
-    pass
-
-
-class Wall:
-    # класс стена, его задачей является "не пускать" живой объект сквозь себя
-    pass
-
-
-class AnyCharacter:
+class AnySprite:
     def __init__(self, sprite_coords, sprite_way, sprite_size):
         self.object = pygame.Surface(sprite_size)
         self.coords = sprite_coords
@@ -25,17 +14,30 @@ class AnyCharacter:
         self.sprite.rect = self.image.get_rect()
 
 
-class Projectile:
+class Platform(AnySprite):
+    # класс объекта-платформы, при её отсутствии под живым объектом - он будет падать.
+    pass
+
+
+class Wall(AnySprite):
+    # класс стена, его задачей является "не пускать" живой объект сквозь себя
+    pass
+
+
+class Projectile(AnySprite):
     # класс, отвечающий за пули, камни всякие летающие и прочие штуки
     pass
 
 
-class Character(AnyCharacter):
+class Character(AnySprite):
     # класс гг
     pass
 
 
-class Enemy(AnyCharacter):
+class StatusBar(AnySprite):
+
+
+class Enemy(AnySprite):
     # класс любого агрессивно настроенного товарища
     pass
 
