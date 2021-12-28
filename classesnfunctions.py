@@ -3,9 +3,9 @@ import time
 import random
 import os
 
+
 class AnySprite:
     def __init__(self, sprite_coords, sprite_way, sprite_size):
-        self.object = pygame.Surface(sprite_size)
         self.coords = sprite_coords
         self.image = pygame.transform.scale(load_image(sprite_way), sprite_size)
         self.sprite = pygame.sprite.Sprite()
@@ -34,7 +34,16 @@ class Character(AnySprite):
     pass
 
 
-class StatusBar(AnySprite):
+class StatusBar:
+    def __init__(self, sprite_coords, color, text, sprite_size):
+        self.object = pygame.Surface(sprite_size)
+        self.coords = sprite_coords
+        self.image = pygame.Surface()
+        self.sprite = pygame.sprite.Sprite()
+        self.sprite.image = self.image
+        self.sprite.rect = self.image.get_rect()
+        all_sprites.add(self.sprite)
+    pass
 
 
 class Enemy(AnySprite):
