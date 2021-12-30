@@ -1,0 +1,74 @@
+import pygame
+
+pygame.init()
+pygame.display.set_caption('')
+window = pygame.display.set_mode((500, 500))
+walkR = [pygame.image.load('1.png'), pygame.image.load('2 .png'), pygame.image.load('3.png'),
+         pygame.image.load('4 .png'), pygame.image.load('5.png'), pygame.image.load('6.png'),
+         pygame.image.load('7.png')]
+stand = pygame.image.load('0.png')
+background = pygame.image.load('background.jpg')
+x_coordinate = 10
+y_coordinate = 30
+height = 155
+widht = 155
+coordinate = 5
+speed = 5
+jump = False
+jump_cout = 10
+
+left = False
+right = False
+anim_count = 0
+time = pygame.time.Clock()
+
+
+def drawWinow():
+    global anim_count
+    window.blit(background, (0, 0))
+    if anim_count + 1 >= 35:
+        anim_count = 0
+    if right:
+        window.blit(walkR[anim_count // 5], (x_coordinate, y_coordinate))
+        anim_count += 1
+    else:
+        window.blit(stand, (x_coordinate, y_coordinate))
+    pygame.display.update()
+
+
+run = True
+while True:
+    time.tick(35)
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            run = False
+    keys = pygame.key.get_pressed()
+    if not (jump):
+        if keys[pygame.K_a] and x_coordinate > 5:
+            x_coordinate -= speed
+            left = True
+            right = False
+        elif keys[pygame.K_d] and x_coordinate < 500 - widht:
+            x_coordinate += speed
+            left = False
+            right = True
+        elif keys[pygame.K_SPACE]:
+            jump = True
+        else:
+            left = False
+            right = False
+            anim_count = 0
+    else:
+        if jump_cout < 0:
+            y_coordinate += (jump_cout ** 2) // 2
+        else:
+            jump_cout -= 1
+        if jump_cout >= -10:
+            y_coordinate -= (jump_cout ** 2) // 2
+            jump_cout -= 1
+        else:
+            jump = False
+            jump_cout = 10
+        drawWinow()
+
+pygame.quit()
