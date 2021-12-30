@@ -1,0 +1,72 @@
+import pygame
+
+
+def drawWindow():
+    global anim_count
+    window.blit(background, (0, 0))
+    if anim_count + 1 >= 35:
+        anim_count = 0
+    elif right:
+        window.blit(Right[anim_count // 5], (x_coordinate, y_coordinate))
+        anim_count += 1
+    else:
+        window.blit(stand, (x_coordinate, y_coordinate))
+    pygame.display.update()
+
+
+pygame.init()
+window = pygame.display.set_mode((500, 500))
+Right = [pygame.image.load('1.png'), pygame.image.load('2 .png'), pygame.image.load('3.png'),
+         pygame.image.load('4 .png'), pygame.image.load('5.png'), pygame.image.load('6.png'),
+         pygame.image.load('7.png')]
+stand = pygame.image.load('0.png')
+background = pygame.image.load('background.jpg')
+x_coordinate = 10
+y_coordinate = 30
+height = 155
+wight = 155
+coordinate = 5
+speed = 5
+jump = 0
+jump_count = 10
+right = 0
+left = 0
+anim_count = 0
+time = pygame.time.Clock()
+drawWindow()
+run = 1
+while True:
+    time.tick(35)
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            run = 0
+    keys = pygame.key.get_pressed()
+    if not jump:
+        if keys[pygame.K_a] and x_coordinate > 5:
+            x_coordinate -= speed
+            left = 1
+            right = 0
+        elif keys[pygame.K_d] and x_coordinate < 500 - wight: #надо определить размер фона..
+            x_coordinate += speed
+            left = 0
+            right = 1
+        elif keys[pygame.K_SPACE]: # фиговый прыжок
+            jump = 1
+        else:
+            left = 0
+            right = 0
+            anim_count = 0
+    else:
+        if jump_count < 0:
+            y_coordinate += (jump_count ** 2) // 2
+        else:
+            jump_count -= 1
+        if jump_count >= -10:
+            y_coordinate -= (jump_count ** 2) // 2
+            jump_count -= 1
+        else:
+            jump = False
+            jump_count = 10
+    drawWindow()
+
+pygame.quit()
